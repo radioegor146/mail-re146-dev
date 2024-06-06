@@ -1,0 +1,40 @@
+services:
+  frontend:
+    build: frontend
+    restart: always
+  backend:
+    build: backend
+    restart: always
+    env:
+      STORAGE_PATH: /storage
+      RETENTION_TIME: 60000
+      DATABASE_URL: postgres://mail:mail@postgres:5432/mail
+    volumes:
+      - storage:/storage
+  postgres:
+    image: postgres:latest
+    restart: always
+    env:
+      POSTGRES_DB: mail
+      POSTGRES_USER: mail
+      POSTGRES_PASSWORD: mail
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  nginx:
+    build: nginx
+    restart: always
+    ports:
+      - 127.0.0.1:13003:3000
+    volumes:
+      - storage:/storage
+  smtp:
+    build: smtp
+    restart: always
+    ports:
+      - 25:25
+      - 465:465
+      - 587:587
+
+volumes:
+  - postgres-data
+  - storage
