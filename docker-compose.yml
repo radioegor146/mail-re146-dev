@@ -5,7 +5,7 @@ services:
   backend:
     build: backend
     restart: always
-    env:
+    environment:
       STORAGE_PATH: /storage
       RETENTION_TIME: 60000
       DATABASE_URL: postgres://mail:mail@postgres:5432/mail
@@ -14,7 +14,7 @@ services:
   postgres:
     image: postgres:latest
     restart: always
-    env:
+    environment:
       POSTGRES_DB: mail
       POSTGRES_USER: mail
       POSTGRES_PASSWORD: mail
