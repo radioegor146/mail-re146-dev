@@ -147,7 +147,7 @@ export default function Index() {
                 <div className={"flex flex-row p-5"}>
                     <div className={"flex-1"}>TempMail by <a href={"https://re146.dev"}
                                                              className={"underline"}>@radioegor146</a></div>
-                    <div><a href={"/swagger/"} className={"underline"}>API docs</a></div>
+                    <div><a href={"/api/swagger/"} className={"underline"}>API docs</a></div>
                 </div>
             </div>
         </ResizablePanel>
