@@ -27,13 +27,13 @@ services:
       - 127.0.0.1:13003:3000
     volumes:
       - storage:/storage
-  smtp:
-    build: smtp
-    restart: always
-    ports:
-      - 25:25
-      - 465:465
-      - 587:587
+  # smtp:
+  #   build: smtp
+  #   restart: always
+  #   ports:
+  #     - 25:25
+  #     - 465:465
+  #     - 587:587
 
 volumes:
   - postgres-data

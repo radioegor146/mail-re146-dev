@@ -1,4 +1,4 @@
-# mail-re146-dev-frontend
+# frontend
 
 Frontend for [mail.re146.dev](https://mail.re146.dev)
 
