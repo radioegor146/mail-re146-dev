@@ -40,11 +40,15 @@ export default function Index() {
     const mailQuery = useQuery({
         queryFn: async () => {
             return (await getMailAt(getMailboxId(currentAccount, currentDomain)))
-                .sort((a, b) => b.timestamp - a.timestamp).map(mail => ({
-                    at: new Date(mail.timestamp * 1000),
-                    subject: mail.subject,
-                    id: mail.message_id,
-                    from: mail.from
+                .map(message => ({
+                    ...message,
+                    recievedAt: new Date(message.recievedAt)
+                }))
+                .sort((a, b) => b.recievedAt.getTime() - a.recievedAt.getTime()).map(message => ({
+                    at: message.recievedAt,
+                    subject: message.subject,
+                    id: message.id,
+                    from: message.from
                 }))
         },
         queryKey: [MAIL_QUERY_KEY],

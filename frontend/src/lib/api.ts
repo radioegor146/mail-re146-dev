@@ -1,16 +1,16 @@
 import PostalMime, {Email} from "postal-mime";
 
 export interface Mail {
+    id: string,
     from: string,
-    message_id: string,
     subject: string,
-    timestamp: number
+    recievedAt: string
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "";
 
 export async function getMailAt(mailBoxId: string): Promise<Mail[]> {
-    return await (await fetch(`${BASE_URL}/api/list/${encodeURIComponent(mailBoxId)}`)).json();
+    return await (await fetch(`${BASE_URL}/api/messages/${encodeURIComponent(mailBoxId)}`)).json();
 }
 
 export async function getMailDomains(): Promise<string[]> {
