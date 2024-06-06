@@ -36,5 +36,5 @@ services:
   #     - 587:587
 
 volumes:
-  - postgres-data
-  - storage
+  postgres-data:
+  storage:
