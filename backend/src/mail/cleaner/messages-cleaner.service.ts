@@ -20,6 +20,7 @@ export class MessagesCleanerService implements OnModuleInit {
     @Cron(CronExpression.EVERY_5_MINUTES)
     async cleanMessages(): Promise<void> {
         const retentionTime = new Date(Date.now() - this.retentionPeriod);
+        this.logger.log(`Deleting messages older than ${retentionTime.toISOString()}`);
         const deletedFromDatabase = await this.messagesService.deleteMessagesOlderThan(retentionTime);
         if (deletedFromDatabase > 0) {
             this.logger.log(`Deleted ${deletedFromDatabase} messages from database`);
