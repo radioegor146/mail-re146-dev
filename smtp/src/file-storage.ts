@@ -6,7 +6,6 @@ export class FileStorage {
     }
 
     async addEmail(mailboxId: string, messageId: string, content: Buffer): Promise<void> {
-        console.info(mailboxId, messageId, this.storagePath);
         const mailboxPath = path.join(this.storagePath, mailboxId);
         const messagePath = path.join(mailboxPath, messageId);
         await fsPromises.mkdir(mailboxPath, {
