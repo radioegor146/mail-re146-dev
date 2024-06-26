@@ -1,11 +1,11 @@
 services:
   frontend:
-    build: frontend
+    build: https://github.com/radioegor146/mail-re146-dev#:frontend
     restart: always
     networks:
       - mail-re146-dev
   backend:
-    build: backend
+    build: https://github.com/radioegor146/mail-re146-dev#:backend
     restart: always
     environment:
       STORAGE_PATH: /storage
@@ -28,7 +28,7 @@ services:
     networks:
       - mail-re146-dev-database
   nginx:
-    build: nginx
+    build: https://github.com/radioegor146/mail-re146-dev#:nginx
     restart: always
     volumes:
       - ./storage:/storage
@@ -41,7 +41,7 @@ services:
       - "traefik.http.routers.mail-re146-dev.rule=Host(`mail.re146.dev`)"
       - "traefik.http.services.mail-re146-dev-svc.loadbalancer.server.port=3000"
   smtp:
-    build: smtp
+    build: https://github.com/radioegor146/mail-re146-dev#:smtp
     restart: always
     environment:
       TLS_KEY_PATH: /tls/server.key
