@@ -6,12 +6,14 @@ import {cn} from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "next-themes";
 import {AppQueryClientProvider} from "@/components/app-query-client-provider";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({subsets: ["latin"], variable: "--font-sans"});
 
 export const metadata: Metadata = {
     title: "TempMail at re146.dev",
     description: "Temporary mail receiving service on re146.dev",
+    keywords: ["tempmail", "email", "temporary mail", "mail"]
 };
 
 export default function RootLayout({
@@ -36,6 +38,7 @@ export default function RootLayout({
             </AppQueryClientProvider>
         </ThemeProvider>
         </body>
+        <GoogleAnalytics gaId={"G-RFBSRB79GF"} />
         </html>
     );
 }
