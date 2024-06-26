@@ -2,6 +2,8 @@ services:
   frontend:
     build: frontend
     restart: always
+    networks:
+      - mail-re146-dev
   backend:
     build: backend
     restart: always
@@ -10,7 +12,10 @@ services:
       RETENTION_TIME: 60000
       DATABASE_URL: postgres://mail:mail@postgres:5432/mail
     volumes:
-      - storage:/storage
+      - ./storage:/storage
+    networks:
+      - mail-re146-dev
+      - mail-re146-dev-database
   postgres:
     image: postgres:latest
     restart: always
@@ -19,22 +24,42 @@ services:
       POSTGRES_USER: mail
       POSTGRES_PASSWORD: mail
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - mail-re146-dev-database
   nginx:
     build: nginx
     restart: always
-    ports:
-      - 127.0.0.1:13003:3000
     volumes:
-      - storage:/storage
-  # smtp:
-  #   build: smtp
-  #   restart: always
-  #   ports:
-  #     - 25:25
-  #     - 465:465
-  #     - 587:587
+      - ./storage:/storage
+    networks:
+      - mail-re146-dev
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mail-re146-dev.entrypoints=web"
+      - "traefik.http.routers.mail-re146-dev.rule=Host(`mail.re146.dev`)"
+      - "traefik.http.services.mail-re146-dev-svc.loadbalancer.server.port=3000"
+  smtp:
+    build: smtp
+    restart: always
+    environment:
+      TLS_KEY_PATH: /tls/server.key
+      TLS_CERTIFICATE_PATH: /tls/server.crt
+      STORAGE_PATH: /storage
+      DATABASE_URL: postgres://mail:mail@postgres:5432/mail
+    volumes:
+      - ./storage:/storage
+      - ./smtp-tls:/tls
+    ports:
+      - 0.0.0.0:25:25
+      - 0.0.0.0:465:465
+      - 0.0.0.0:587:587
+    networks:
+      - mail-re146-dev-database
 
-volumes:
-  postgres-data:
-  storage:
+networks:
+  traefik:
+    external: true
+  mail-re146-dev:
+  mail-re146-dev-database:

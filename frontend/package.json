@@ -1,7 +1,9 @@
 {
   "name": "mail-re146-dev-frontend",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "Frontend for mail.re146.dev",
+  "author": "radioegor146",
+  "license": "GPL-3.0-only",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
