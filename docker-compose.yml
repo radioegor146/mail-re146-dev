@@ -9,7 +9,7 @@ services:
     restart: always
     environment:
       STORAGE_PATH: /storage
-      RETENTION_TIME: 60000
+      RETENTION_PERIOD: 600000
       DATABASE_URL: postgres://mail:mail@postgres:5432/mail
     volumes:
       - ./storage:/storage
