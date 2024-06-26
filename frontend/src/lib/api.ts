@@ -4,7 +4,7 @@ export interface Mail {
     id: string,
     from: string,
     subject: string,
-    recievedAt: string
+    receivedAt: string
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "";

@@ -42,10 +42,10 @@ export default function Index() {
             return (await getMailAt(getMailboxId(currentAccount, currentDomain)))
                 .map(message => ({
                     ...message,
-                    recievedAt: new Date(message.recievedAt)
+                    receivedAt: new Date(message.receivedAt)
                 }))
-                .sort((a, b) => b.recievedAt.getTime() - a.recievedAt.getTime()).map(message => ({
-                    at: message.recievedAt,
+                .sort((a, b) => b.receivedAt.getTime() - a.receivedAt.getTime()).map(message => ({
+                    at: message.receivedAt,
                     subject: message.subject,
                     id: message.id,
                     from: message.from
