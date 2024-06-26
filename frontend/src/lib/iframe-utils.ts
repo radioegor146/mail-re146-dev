@@ -11,8 +11,11 @@ export const iframeScript = `
     }
     
     document.addEventListener('DOMContentLoaded', () => {
-        [...document.getElementsByTagName('img')].map(element => {
+        [...document.getElementsByTagName('img')].forEach(element => {
             element.src = updateImageUrl(element.src);
+        });
+        [...document.getElementsByTagName('a')].forEach(element => {
+            element.setAttribute('target', '_blank');
         });
     });
 `;
