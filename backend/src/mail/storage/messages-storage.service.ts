@@ -22,7 +22,11 @@ export class MessagesStorageService implements OnModuleInit {
         let deleted = 0;
 
         for (const file of files) {
-            if ((await fsPromises.stat(join(this.storagePath, file))).ctime.getTime() < time.getTime()) {
+            const fileStat = await fsPromises.stat(join(this.storagePath, file));
+            if (!fileStat.isFile()) {
+                continue;
+            }
+            if (fileStat.ctime.getTime() < time.getTime()) {
                 await fsPromises.unlink(join(this.storagePath, file));
                 deleted++;
             }
