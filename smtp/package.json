@@ -9,6 +9,7 @@
     "start": "ts-node src/main.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.750.0",
     "@types/mailparser": "^3.4.4",
     "@types/node": "^20.14.9",
     "@types/smtp-server": "^3.5.10",

@@ -21,13 +21,20 @@ export class MessagesCleanerService implements OnModuleInit {
     async cleanMessages(): Promise<void> {
         const retentionTime = new Date(Date.now() - this.retentionPeriod);
         this.logger.log(`Deleting messages older than ${retentionTime.toISOString()}`);
-        const deletedFromDatabase = await this.messagesService.deleteMessagesOlderThan(retentionTime);
-        if (deletedFromDatabase > 0) {
-            this.logger.log(`Deleted ${deletedFromDatabase} messages from database`);
-        }
-        const deletedFromStorage = await this.messagesStorageService.cleanMessagesOlderThan(retentionTime);
-        if (deletedFromStorage > 0) {
-            this.logger.log(`Deleted ${deletedFromStorage} messages from storage`);
+        while (true) {
+            const messages = await this.messagesService.getMessagesOlderThan(retentionTime, 10);
+            if (messages.length === 0) {
+                break;
+            }
+
+            for (const message of messages) {
+                try {
+                    await this.messagesStorageService.deleteMessage(message.mailboxId, message.id);
+                } catch (e) {
+                    this.logger.error(`Failed to delete message ${message.id} from storage: ${e}`);
+                }
+                await this.messagesService.deleteMessage(message);
+            }
         }
     }
 }

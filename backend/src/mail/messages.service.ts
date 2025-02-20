@@ -14,9 +14,16 @@ export class MessagesService {
         });
     }
 
-    async deleteMessagesOlderThan(time: Date): Promise<number> {
-        return (await this.messageRepository.delete({
-            receivedAt: LessThan(time)
-        })).affected!;
+    async getMessagesOlderThan(time: Date, limit: number): Promise<Message[]> {
+        return await this.messageRepository.find({
+            where: {
+                receivedAt: LessThan(time)
+            },
+            take: limit
+        });
+    }
+
+    async deleteMessage(message: Message): Promise<void> {
+        await this.messageRepository.delete(message);
     }
 }

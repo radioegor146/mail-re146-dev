@@ -2,9 +2,9 @@ import {SMTPServer, SMTPServerDataStream, SMTPServerSession} from "smtp-server";
 import {promises as fsPromises} from "fs";
 import dotenv from "dotenv";
 import {AddressObject, simpleParser} from "mailparser";
-import {FileStorage} from "./file-storage";
 import {Database} from "./database";
 import {getMailboxId} from "./utils";
+import {S3Storage} from "./s3-storage";
 
 dotenv.config();
 
@@ -27,7 +27,12 @@ function addressesToStrings(addresses: AddressObject | AddressObject[] | undefin
 (async () => {
     const database = new Database(process.env.DATABASE_URL ?? "postgres://postgres:postgres@postgres:5432/postgres");
     await database.init();
-    const fileStorage = new FileStorage(process.env.STORAGE_PATH ?? "/tmp/mail");
+    const storage = new S3Storage({
+        endpoint: process.env.S3_ENDPOINT ?? "http://minio:9000",
+        accessKey: process.env.S3_ACCESS_KEY ?? "minioadmin",
+        secretKey: process.env.S3_SECRET_KEY ?? "minioadmin",
+        bucket: process.env.S3_BUCKET ?? "mail-re146-dev"
+    });
 
     const commonOptions = {
         key: await fsPromises.readFile(process.env.TLS_KEY_PATH ?? "tls/server.key"),
@@ -64,7 +69,7 @@ function addressesToStrings(addresses: AddressObject | AddressObject[] | undefin
                             for (const address of to) {
                                 const mailboxId = getMailboxId(address);
                                 const messageId = await database.addEmail(mailboxId, from.join(", "), new Date(), subject ?? "N/A");
-                                await fileStorage.addEmail(mailboxId, messageId, contents);
+                                await storage.addEmail(mailboxId, messageId, contents);
                             }
                         })().catch(e => console.error(`Saving error: ${e}`));
                     })
