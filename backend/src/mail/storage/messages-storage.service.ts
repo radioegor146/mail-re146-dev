@@ -30,9 +30,9 @@ export class MessagesStorageService implements OnModuleInit {
         this.bucket = this.configService.getOrThrow("S3_BUCKET");
 
         try {
-            await this.s3Client.send(new CreateBucketCommand({
+            console.info(await this.s3Client.send(new CreateBucketCommand({
                 Bucket: this.bucket
-            }));
+            })));
             this.logger.log(`Bucket '${this.bucket}' created`);
         } catch (e) {
             this.logger.warn(`Failed to create bucket '${this.bucket}': ${e}`);
