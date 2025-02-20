@@ -5,6 +5,7 @@ export interface S3StorageConfig {
     accessKey: string;
     secretKey: string;
     bucket: string;
+    region: string;
 }
 
 export class S3Storage {
@@ -16,7 +17,8 @@ export class S3Storage {
             credentials: {
                 accessKeyId: config.accessKey,
                 secretAccessKey: config.secretKey,
-            }
+            },
+            region: config.region
         })
     }
 

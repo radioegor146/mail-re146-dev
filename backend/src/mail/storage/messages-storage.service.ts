@@ -23,7 +23,8 @@ export class MessagesStorageService implements OnModuleInit {
             credentials: {
                 accessKeyId: this.configService.getOrThrow("S3_ACCESS_KEY"),
                 secretAccessKey: this.configService.getOrThrow("S3_SECRET_KEY")
-            }
+            },
+            region: this.configService.getOrThrow("S3_REGION"),
         });
         this.bucket = this.configService.getOrThrow("S3_BUCKET");
 

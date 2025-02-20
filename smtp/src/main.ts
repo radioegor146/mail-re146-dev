@@ -31,7 +31,8 @@ function addressesToStrings(addresses: AddressObject | AddressObject[] | undefin
         endpoint: process.env.S3_ENDPOINT ?? "http://minio:9000",
         accessKey: process.env.S3_ACCESS_KEY ?? "minioadmin",
         secretKey: process.env.S3_SECRET_KEY ?? "minioadmin",
-        bucket: process.env.S3_BUCKET ?? "mail-re146-dev"
+        bucket: process.env.S3_BUCKET ?? "mail-re146-dev",
+        region: process.env.S3_REGION ?? "us-east-1"
     });
 
     const commonOptions = {
