@@ -30,20 +30,12 @@ export class MessagesStorageService implements OnModuleInit {
         this.bucket = this.configService.getOrThrow("S3_BUCKET");
 
         try {
-            console.info(await this.s3Client.send(new CreateBucketCommand({
+            await this.s3Client.send(new CreateBucketCommand({
                 Bucket: this.bucket
-            })));
+            }));
             this.logger.log(`Bucket '${this.bucket}' created`);
         } catch (e) {
             this.logger.warn(`Failed to create bucket '${this.bucket}': ${e}`);
-        }
-        try {
-            await this.s3Client.send(new DeletePublicAccessBlockCommand({
-                Bucket: this.bucket
-            }));
-            this.logger.log(`Bucket '${this.bucket}' public access block deleted`);
-        } catch (e) {
-            this.logger.warn(`Failed to delete public access block for bucket '${this.bucket}': ${e}`);
         }
         try {
             await this.s3Client.send(new PutBucketPolicyCommand({
