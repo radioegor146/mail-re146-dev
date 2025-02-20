@@ -18,7 +18,8 @@ export class S3Storage {
                 accessKeyId: config.accessKey,
                 secretAccessKey: config.secretKey,
             },
-            region: config.region
+            region: config.region,
+            forcePathStyle: true
         })
     }
 
