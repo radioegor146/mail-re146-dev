@@ -21,6 +21,7 @@ export class MessagesCleanerService implements OnModuleInit {
     async cleanMessages(): Promise<void> {
         const retentionTime = new Date(Date.now() - this.retentionPeriod);
         this.logger.log(`Deleting messages older than ${retentionTime.toISOString()}`);
+        let deleted = 0;
         while (true) {
             const messages = await this.messagesService.getMessagesOlderThan(retentionTime, 10);
             if (messages.length === 0) {
@@ -35,6 +36,10 @@ export class MessagesCleanerService implements OnModuleInit {
                 }
                 await this.messagesService.deleteMessage(message);
             }
+            deleted += messages.length;
+        }
+        if (deleted > 0) {
+            this.logger.log(`Deleted ${deleted} messages`);
         }
     }
 }
