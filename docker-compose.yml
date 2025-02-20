@@ -8,7 +8,6 @@ services:
     build: https://github.com/radioegor146/mail-re146-dev.git#:backend
     restart: always
     environment:
-      STORAGE_PATH: /storage
       RETENTION_PERIOD: 600000
       DATABASE_URL: postgres://mail:mail@postgres:5432/mail
       S3_ENDPOINT: http://minio:9000
@@ -48,7 +47,6 @@ services:
     environment:
       TLS_KEY_PATH: /tls/server.key
       TLS_CERTIFICATE_PATH: /tls/server.crt
-      STORAGE_PATH: /storage
       DATABASE_URL: postgres://mail:mail@postgres:5432/mail
       S3_ENDPOINT: http://minio:9000
       S3_ACCESS_KEY: minioadmin
