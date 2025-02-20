@@ -46,6 +46,7 @@ export class MessagesStorageService implements OnModuleInit {
                         {
                             Effect: "Allow",
                             Action: "s3:GetObject",
+                            Principal: "*",
                             Resource: `arn:aws:s3:::${this.bucket}/*`,
                         },
                     ]
