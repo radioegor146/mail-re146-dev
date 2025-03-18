@@ -7,4 +7,7 @@ export class Domain {
 
     @Column("text")
     domain!: string;
+
+    @Column("boolean", {default: false})
+    active!: boolean;
 }

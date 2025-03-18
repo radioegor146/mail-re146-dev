@@ -10,13 +10,13 @@ export class DomainsController {
 
     @Get("domains")
     @ApiOperation({
-        summary: "Get all available domains"
+        summary: "Get all active domains"
     })
     @ApiOkResponse({
         description: "Successful response",
         type: [String],
     })
-    async getDomains(): Promise<string[]> {
-        return this.domainsService.getDomains();
+    async getActiveDomains(): Promise<string[]> {
+        return (await this.domainsService.getActiveDomains()).map(domain => domain.domain);
     }
 }
