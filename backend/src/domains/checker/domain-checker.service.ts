@@ -23,17 +23,21 @@ export class DomainCheckerService implements OnModuleInit {
 
     isActive(response: SingleQuestionPacket): boolean {
         if (!response.answers) {
+            this.logger.log("No answers");
             return false;
         }
         if (response.answers.length === 0) {
+            this.logger.log("No answers 2");
             return false;
         }
         for (const answer of response.answers) {
             if (answer.type === "MX") {
                 if (answer.data.exchange !== this.requiredMXRecordValue) {
+                    this.logger.log(`Wrong exchange: ${answer.data.exchange} ${this.requiredMXRecordValue}`);
                     return false;
                 }
             } else {
+                this.logger.log(`Wrong record type: ${answer.type}`);
                 return false;
             }
         }
@@ -66,6 +70,7 @@ export class DomainCheckerService implements OnModuleInit {
                         this.logger.warn(`Domain '${domain.domain}' changed status from ${
                             domain.active ? "active" : "inactive"} to ${active ? "active" : "inactive"}: ${JSON.stringify(response.answers)}`);
                         domain.active = active;
+                        await this.domainService.saveDomain(domain);
                     }
                 } catch (e) {
                     this.logger.error(`Failed to query '${domain.domain}' on '${this.dnsServer}': ${e}`);
