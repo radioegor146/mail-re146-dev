@@ -62,7 +62,6 @@ export class DomainCheckerService implements OnModuleInit {
 
                     const active = this.isActive(response);
 
-                    this.logger.log(JSON.stringify(response.answers));
                     if (domain.active !== active) {
                         this.logger.warn(`Domain '${domain.domain}' changed status from ${
                             domain.active ? "active" : "inactive"} to ${active ? "active" : "inactive"}: ${JSON.stringify(response.answers)}`);
